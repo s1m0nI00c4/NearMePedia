@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack'
-import {createSwitchNavigator, createAppContainer } from 'react-navigation'
+import {createSwitchNavigator, createAppContainer } from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
 const ScreenB = props => (
     <View>
@@ -21,7 +21,7 @@ const ScreenA = props => (
 ScreenA.navigationOptions = {title: "Screen A"}
 
 const ScreenC = props => (
-    <View>
+    <View style="style.container">
       <Button title="Go to ScreenB" onPress={() => props.navigation.navigate("RouteB")} />
       <Button title="back" onPress={() => props.navigation.goBack()} />
     </View>)

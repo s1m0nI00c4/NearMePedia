@@ -12,7 +12,7 @@ const ScreenB = props => (
 ScreenB.navigationOptions = {title: "Screen B"}
 
 const ScreenA = props => (
-    <View style="styles.container">
+    <View>
       <Button title="Go to ScreenB" onPress={() => props.navigation.navigate("RouteB")} />
       <Button title="Go to ScreenC (ReadingList)" onPress={() => props.navigation.navigate("RouteC")} />
       <Button title="back" onPress={() => props.navigation.goBack()} />

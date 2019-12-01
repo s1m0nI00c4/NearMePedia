@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack'
 import {createSwitchNavigator, createAppContainer } from 'react-navigation'
 
@@ -38,7 +38,16 @@ const routes = {
 const options = {initialRouteName: 'RouteB' }
 const AppNavigator = createStackNavigator(routes, options)
 
-export default createAppContainer(AppNavigator)
+const AppContainer = createAppContainer(AppNavigator)
+
+export default class ContactApp extends React.Component {
+
+	render(){
+		return (
+			<AppContainer></AppContainer>
+		)
+	}
+}
 
 
 const styles = StyleSheet.create({

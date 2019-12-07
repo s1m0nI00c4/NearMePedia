@@ -1,22 +1,31 @@
-export const getData = async () => {
+import React from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import {getData} from './WikiAPIHandler'
+import Place from './Place'
 
-  var url = "https://en.wikipedia.org/w/api.php";
+export default class ComponentA extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    	data: [],
+	  }
+   }
 
-   var params = {
-      action: "query",
-      list: "geosearch",
-      gscoord: "37.7891838|-122.4033522",
-      gsradius: "10000",
-      gslimit: "10",
-      format: "json"
-   };
+  saveData = async () => {
+    const data = await getData()
+    this.setState({data: data})
+	}
 
-   url = url + "?origin=*";
-   Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+  componentDidMount() {
+    this.saveData()
+  }
 
-   const response = await fetch(url);
-   const myJSONResponse = await response.json();
-   const placesArray = await myJSONResponse.query.geosearch;
-
-   return placesArray
+  render() {
+    return (
+    <View>
+      {this.state.data.length === 0?
+        <Text>Loading...</Text> :
+        this.state.data.map( place => <Place title={place.title} dist={place.dist} pageid={place.pageid} saveTo={true}></Place>)}
+    </View>)
+  }
 }

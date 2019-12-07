@@ -14,7 +14,7 @@ export default class ComponentB extends React.Component {
   onSubmit = coords => {
         /*this.props.screenProps.addContact(coords)*/
         console.log("My coords are: " + coords.latitude + " " + coords.longitude)
-        this.props.navigation.navigate("RouteA")
+        /*this.props.navigation.navigate("RouteA")*/
     }
 
   render() {

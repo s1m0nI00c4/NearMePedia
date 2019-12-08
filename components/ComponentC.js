@@ -4,12 +4,17 @@ import Constants from 'expo-constants';
 
 const Item = props => {
   return (
-    <View>
-      <Text>-----------</Text>
-      <Text>{props.title} - {props.pageid}</Text>
-      <Text>Distance: {props.dist} m</Text>
-      <Button title="Go to Wiki" onPress={()=>{Linking.openURL(props.url)}} />
-      <Button onPress={props.onDelete} title="delete" />
+    <View style={styles.box}>
+      <Text style={styles.subtitle}>{props.title}</Text>
+      <Text style={styles.text}>Distance: {props.dist} m</Text>
+      <View style={styles.container}>
+        <View style={styles.buttonContainer, {margin: 7}}>
+          <Button title="Go to Wikipedia" onPress={()=>{Linking.openURL(props.url)}} />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button title="delete" color={"red"} onPress={props.onDelete} />
+        </View>
+      </View>
     </View>)
 }
 
@@ -33,7 +38,8 @@ export default class ComponentC extends React.Component {
   render() {
     return (
     <ScrollView>
-      <Text>Here a list of reads you saved</Text>
+      <Text style={styles.title}>Reading List</Text>
+      <Text style={styles.text}>Here a list of reads you saved</Text>
       {this.state.data.map( place => <Item
                                         title={place.title}
                                         onDelete={() => this.deleteItem(place.pageid)}
@@ -47,3 +53,47 @@ export default class ComponentC extends React.Component {
     </ScrollView>)
   }
 }
+
+const styles = StyleSheet.create({
+
+  title: {
+    paddingTop: Constants.statusBarHeight,
+    margin: 28,
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  subtitle: {
+    marginBottom: 14,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  text: {
+    margin: 14,
+    fontSize: 14,
+    textAlign: 'center',
+  },
+
+  box: {
+    paddingHorizontal: 14,
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 14,
+    backgroundColor: "#EDF9FF",
+  },
+
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonContainer: {
+        flex: 1,
+    }
+
+});

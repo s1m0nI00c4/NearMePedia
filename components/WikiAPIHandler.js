@@ -1,43 +1,45 @@
 export const getData = async () => {
 
   var url = "https://en.wikipedia.org/w/api.php";
-  var params = {
+
+   var params = {
       action: "query",
       list: "geosearch",
       gscoord: "37.7891838|-122.4033522",
       gsradius: "10000",
       gslimit: "10",
       format: "json"
-  };
+   };
 
-  url = url + "?origin=*";
-  Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+   url = url + "?origin=*";
+   Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
 
-  const response = await fetch(url);
-  const myJSONResponse = await response.json();
-  const placesArray = await myJSONResponse.query.geosearch;
+   const response = await fetch(url);
+   const myJSONResponse = await response.json();
+   const placesArray = await myJSONResponse.query.geosearch;
 
-  return placesArray
+   return placesArray
 }
 
 export const getLink = async (pageid) => {
 
-  var url = "https://en.wikipedia.org/w/api.php";
-  var params = {
-    action: "query",
-    format: "json",
-    pageids: pageid,
-    prop: "info",
-    inprop: "url|talkid"
-  };
+    var url = "https://en.wikipedia.org/w/api.php";
 
-  url = url + "?origin=*";
-  Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+    var params = {
+      action: "query",
+      format: "json",
+      pageids: pageid,
+      prop: "info",
+      inprop: "url|talkid"
+    };
 
-  const response = await fetch(url);
-  const myJSONResponse = await response.json()
-  const p = await myJSONResponse.query.pages
+    url = url + "?origin=*";
+    Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
 
-  return p[pageid].fullurl
+    const response = await fetch(url);
+    const myJSONResponse = await response.json()
+    const p = await myJSONResponse.query.pages
+
+    return p[pageid].fullurl
 
 }

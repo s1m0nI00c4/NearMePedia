@@ -21,7 +21,6 @@ export default class Positionpicker extends React.Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    console.log(location.coords)
     return { latitude: location.coords.latitude, longitude: location.coords.longitude }
   };
 
@@ -32,9 +31,38 @@ export default class Positionpicker extends React.Component {
 
   render() {
     return (
-    <View>
+    <View style={styles.box}>
+      <Text style={styles.title}>Pick</Text>
+      <Text style={styles.text}>{this.state.text} </Text>
       <Button title="Pick current position" onPress={this.handleSubmit} />
-      <Text>{this.state.text} </Text>
     </View>)
   }
 }
+
+const styles = StyleSheet.create({
+
+  title: {
+    marginBottom: 14,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  text: {
+    margin: 14,
+    fontSize: 14,
+    textAlign: 'center',
+  },
+
+  box: {
+    padding: 14,
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    backgroundColor: "#EDF9FF",
+    marginBottom: 7,
+  },
+
+
+
+});

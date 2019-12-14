@@ -26,6 +26,7 @@ export default class ComponentA extends React.Component {
   }
 
   render() {
+    var id = 0;
     return (
     <Subscribe to={[AContainer]}>
       { api =>
@@ -35,6 +36,7 @@ export default class ComponentA extends React.Component {
         {api.state.data.length === 0?
           <Text>Loading...</Text> :
           api.state.data.map( place => <Place
+                                          key={id++}
                                           title={place.title}
                                           dist={place.dist}
                                           pageid={place.pageid}

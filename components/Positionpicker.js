@@ -13,21 +13,30 @@ export default class Positionpicker extends React.Component {
    }
 
   _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        text: 'Permission to access location was denied',
-      });
-    }
 
-    let location = await Location.getCurrentPositionAsync({});
-    return { latitude: location.coords.latitude, longitude: location.coords.longitude }
+    try {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        this.setState({
+          text: 'Permission to access location was denied',
+        });
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      return { latitude: location.coords.latitude, longitude: location.coords.longitude }
+    } catch(error) {
+      console.log(error.message)
+    }
   };
 
   handleSubmit = async () => {
+    try {
     const coords = await this._getLocationAsync();
     this.props.onSubmit(coords)
     this.props.onSelect(coords)
+    } catch(error) {
+    console.log(error.message)
+    }
   }
 
   render() {

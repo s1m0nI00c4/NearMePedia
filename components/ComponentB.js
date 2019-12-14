@@ -37,6 +37,7 @@ export default class ComponentB extends React.Component {
    }
 
   render() {
+    var id= 0;
     return (
     <Subscribe to={[BContainer]}>
     { list =>
@@ -49,6 +50,7 @@ export default class ComponentB extends React.Component {
           <Text style={styles.subtitle}>List of your places</Text>
           <Text style={styles.text}>Click on one address to browse locations in its area</Text>
           {list.state.gscoord.map(item => <Position
+                                            key={id++}
                                             address={item.address}
                                             latitude={item.latitude}
                                             longitude={item.longitude}

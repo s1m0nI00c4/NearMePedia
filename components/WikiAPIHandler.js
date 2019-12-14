@@ -14,11 +14,16 @@ export const getData = async (coords) => {
    url = url + "?origin=*";
    Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
 
+   try {
+
    const response = await fetch(url);
    const myJSONResponse = await response.json();
    const placesArray = await myJSONResponse.query.geosearch;
-
    return placesArray
+
+  } catch(error) {
+   console.log(error.message)
+  }
 }
 
 export const getLink = async (pageid) => {
@@ -36,10 +41,13 @@ export const getLink = async (pageid) => {
     url = url + "?origin=*";
     Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
 
+    try {
     const response = await fetch(url);
     const myJSONResponse = await response.json()
     const p = await myJSONResponse.query.pages
-
     return p[pageid].fullurl
+  } catch(error) {
+    console.log(error.message)
+  }
 
 }

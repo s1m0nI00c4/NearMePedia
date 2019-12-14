@@ -17,26 +17,34 @@ export default class Georesolver extends React.Component {
 
   _getLocationAsync = async () => {
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=";
-    if (this.state.location !== '') {
+    try {
+      if (this.state.location !== '') {
 
-      url += this.state.location;
-      url += "&key=AIzaSyDJJ5e2qA5k6HpTHsw0NVFSfqdWS8sMW4A";
+        url += this.state.location;
+        url += "&key=AIzaSyDJJ5e2qA5k6HpTHsw0NVFSfqdWS8sMW4A";
 
-      const response = await fetch(url);
-      const myJSONresponse = await response.json()
-      if (myJSONresponse.status === "OK") {
-        const coords = await myJSONresponse.results[0].geometry.location
-        return { latitude: coords.lat, longitude: coords.lng }}
-      else {this.setState({error: "I just broke Google. Oops."})}
+        const response = await fetch(url);
+        const myJSONresponse = await response.json()
+        if (myJSONresponse.status === "OK") {
+          const coords = await myJSONresponse.results[0].geometry.location
+          return { latitude: coords.lat, longitude: coords.lng }}
+        else {this.setState({error: "I just broke Google. Oops."})}
+      }
+
+      else { this.setState({error: "Please enter a valid location!!!"})}
+    } catch(error) {
+        console.log(error.message)
     }
-
-    else { this.setState({error: "Please enter a valid location!!!"})}
   };
 
   handleSubmit = async () => {
+        try {
         const data = await this._getLocationAsync()
         this.props.onSubmit(data)
         this.props.onSelect(data)
+        } catch(error) {
+          console.log(error.message)
+      }
     }
 
   render() {

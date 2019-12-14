@@ -12,8 +12,12 @@ export default class Place extends React.Component {
   }
 
   fetchLink = async () => {
+    try {
     const url = await getLink(this.props.pageid)
     this.setState({url: url})
+    } catch(error) {
+    console.log(error.message)
+    }
   }
 
   async componentDidMount() {

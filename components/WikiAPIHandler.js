@@ -1,11 +1,11 @@
-export const getData = async () => {
+export const getData = async (coords) => {
 
   var url = "https://en.wikipedia.org/w/api.php";
 
    var params = {
       action: "query",
       list: "geosearch",
-      gscoord: "37.7891838|-122.4033522",
+      gscoord: coords.latitude + "|" + coords.longitude,
       gsradius: "10000",
       gslimit: "10",
       format: "json"

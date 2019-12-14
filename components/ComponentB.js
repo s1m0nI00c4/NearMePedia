@@ -1,59 +1,65 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableOpacity} from 'react-native';
-import Constants from 'expo-constants'
-import Positionpicker from './Positionpicker'
-import Georesolver from './Georesolver'
-import {_getPositionAsync} from './GMapsAPIHandler'
+import Constants from 'expo-constants';
+import Positionpicker from './Positionpicker';
+import Georesolver from './Georesolver';
+import { Subscribe } from "unstated";
+import BContainer from "../unstated/BContainer";
 
-const Position = props => {
-  return (
-    <TouchableOpacity style={{flex: 1, flexDirection: "row", marginBottom: 7}}>
-      <Text style={styles.position}>{props.address}</Text>
-      <Button style={{outerHeight: 24}} title="Delete" color="red" onPress={props.onDelete} />
+class Position extends React.Component {
+
+  constructor(props) {
+    super(props);
+   }
+
+  myOnPress = async () => {
+
+    console.log("something")
+    this.props.onSubmit({latitude: this.props.latitude, longitude: this.props.longitude});
+    this.props.onSelect({latitude: this.props.latitude, longitude: this.props.longitude});
+
+  }
+
+  render() {
+    return (
+    <TouchableOpacity style={styles.position} onPress={() => this.myOnPress()}>
+      <Text style={{flex: 1, fontWeight: "bold", textAlignVertical: "center"}}>{this.props.address}</Text>
+      <Button style={{flex: 1}} title="X" color="red" onPress={this.props.onDelete} />
     </TouchableOpacity>
   )
+  }
 }
 
 export default class ComponentB extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = {
-      gscoord: []
-    }
-  }
-
-  onSubmit = async coords => {
-    const addr = await _getPositionAsync(coords)
-    coords.address = addr
-    var newGscoord = this.state.gscoord;
-    newGscoord.push(coords)
-    this.setState({gscoord: newGscoord})
-   }
-
-  deletePosition = address => {
-    console.log("smt")
-     const newGscoord = this.state.gscoord.filter( item => item.address !== address)
-     this.setState({gscoord: newGscoord})
    }
 
   render() {
     return (
-    <ScrollView>
-      <Text style={styles.title}>Welcome to the NearMePedia App</Text>
-      <Text style={styles.text}> Please choose one of the following options </Text>
-      <Georesolver style={styles.box} onSubmit={this.onSubmit}/>
-      <Positionpicker style={styles.box} onSubmit={this.onSubmit} />
-      <View styles={styles.box}>
-        <Text style={styles.subtitle}>List of your places</Text>
-        <Text style={styles.text}>Click on one address to browse locations in its area</Text>
-        {this.state.gscoord.map(item => <Position
-                                          address={item.address}
-                                          latitude={item.latitude}
-                                          longitude={item.longitude}
-                                          onDelete={() => this.deletePosition(item.address)}
-                                        />)}
-      </View>
-    </ScrollView>)
+    <Subscribe to={[BContainer]}>
+    { list =>
+      <ScrollView>
+        <Text style={styles.title}>Welcome to the NearMePedia App</Text>
+        <Text style={styles.text}> Search a location you want to browse, pick your current location, or tap on one of your favorite locations below </Text>
+        <Georesolver style={styles.box} onSubmit={list.onSubmit} onSelect={this.props.onSelect} />
+        <Positionpicker style={styles.box} onSubmit={list.onSubmit} onSelect={this.props.onSelect} />
+        <View styles={styles.listbox}>
+          <Text style={styles.subtitle}>List of your places</Text>
+          <Text style={styles.text}>Click on one address to browse locations in its area</Text>
+          {list.state.gscoord.map(item => <Position
+                                            address={item.address}
+                                            latitude={item.latitude}
+                                            longitude={item.longitude}
+                                            onSubmit={list.onSubmit}
+                                            onSelect={this.props.onSelect}
+                                            onDelete={() => list.deletePosition(item.address)}
+                                          />)}
+        </View>
+      </ScrollView>
+    }
+    </Subscribe>)
   }
 }
 
@@ -88,13 +94,20 @@ const styles = StyleSheet.create({
     paddingBottom: 7,
   },
 
-  position: {
-    padding: 14,
+  listbox: {
+    paddingHorizontal: 14,
     fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 14,
+    marginBottom: 100,
+  },
+
+  position: {
+    flex: 1,
+    flexDirection: "row",
+    marginBottom: 7,
     backgroundColor: "#EDF9FF",
+    textAlignVertical: "center"
   },
 
 });

@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, Linking } from 'react-native';
 import Constants from 'expo-constants';
+import { Subscribe } from "unstated";
+import CContainer from "../unstated/CContainer";
 
 const Item = props => {
   return (
@@ -18,39 +20,44 @@ const Item = props => {
     </View>)
 }
 
-export default class ComponentC extends React.Component {
+class ItemLoader extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = {
-    	data: [],
-	  }
+  }
+
+  componentDidMount() {
+    this.props.api.addItem(this.props.saveForLater)
+  }
+  render() {
+    return null
+  }
+}
+
+export default class ComponentC extends React.Component {
+
+  constructor(props) {
+    super(props);
    }
-
-  deleteItem(id) {
-    const newData = this.state.data.filter(item => item.pageid !== id);
-    this.setState({ data: newData });
-  }
-
-  addItem = () => {
-    this.setState({data: [{pageid: 123456, title: "testTitle", dist: 25 , url: "https://www.google.com"}]})
-  }
 
   render() {
     return (
-    <ScrollView>
-      <Text style={styles.title}>Reading List</Text>
-      <Text style={styles.text}>Here a list of reads you saved</Text>
-      {this.state.data.map( place => <Item
-                                        title={place.title}
-                                        onDelete={() => this.deleteItem(place.pageid)}
-                                        dist={place.dist}
-                                        pageid={place.pageid}
-                                        url={place.url}
-                                        saveTo={false}
-                                      />
-                          )}
-      <Button title="add" onPress={() => this.addItem()} />
-    </ScrollView>)
+    <Subscribe to={[CContainer]}>
+      { api =>
+      <ScrollView>
+        <ItemLoader api={api} saveForLater={this.props.saveForLater} />
+        <Text style={styles.title}>Reading List</Text>
+        <Text style={styles.text}>{api.state.data.length===0? "Your reading list is empty": "Here a list of reads you saved"}</Text>
+        {api.state.data.map( place => <Item
+                                          title={place.title}
+                                          onDelete={() => api.deleteItem(place.pageid)}
+                                          dist={place.dist}
+                                          pageid={place.pageid}
+                                          url={place.url}
+                                        />)}
+      </ScrollView>
+      }
+    </Subscribe>)
   }
 }
 
@@ -59,6 +66,7 @@ const styles = StyleSheet.create({
   title: {
     paddingTop: Constants.statusBarHeight,
     margin: 28,
+    marginBottom: 14,
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -72,7 +80,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    margin: 14,
+    marginBottom: 28,
     fontSize: 14,
     textAlign: 'center',
   },

@@ -7,11 +7,23 @@ import ScreenB from './screens/ScreenB'
 import ScreenC from './screens/ScreenC'
 
 
-ScreenB.navigationOptions = {title: "Screen B", headerTitleStyle:{flex: 1, textAlign: 'center'}}
+ScreenB.navigationOptions = ({navigation}) => ({
+    title: "ScreenB",
+    headerRight:  <Button
+                    title="Reading List"
+                    onPress={() => navigation.navigate("RouteC")}
+                  />
+})
 
-ScreenA.navigationOptions = {title: "Screen A", headerTitleStyle:{textAlign: 'center'}}
+ScreenA.navigationOptions = ({navigation}) => ({
+    title: "ScreenA",
+    headerRight:  <Button
+                    title="Reading List"
+                    onPress={() => navigation.navigate("RouteC")}
+                  />
+})
 
-ScreenC.navigationOptions = {title: "Screen C", headerTitleStyle:{textAlign: 'center'}}
+ScreenC.navigationOptions = {title: "Screen C"}
 
 
 const routes = {

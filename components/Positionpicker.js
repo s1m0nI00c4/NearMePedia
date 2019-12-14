@@ -27,6 +27,7 @@ export default class Positionpicker extends React.Component {
   handleSubmit = async () => {
     const coords = await this._getLocationAsync();
     this.props.onSubmit(coords)
+    this.props.onSelect(coords)
   }
 
   render() {

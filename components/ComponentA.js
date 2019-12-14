@@ -1,39 +1,47 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, } from 'react-native';
 import Constants from 'expo-constants'
-import {getData} from './WikiAPIHandler'
 import Place from './Place'
+import { Subscribe } from "unstated";
+import AContainer from "../unstated/AContainer";
 
-export default class ComponentA extends React.Component {
+class Loader extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = {
-    	data: [],
-	  }
-   }
-
-  saveData = async () => {
-    const data = await getData()
-    this.setState({data: data})
-	}
+  }
 
   componentDidMount() {
-    this.saveData()
+    this.props.api.saveData(this.props.coords)
+  }
+  render() {
+    return null
+  }
+}
+
+export default class ComponentA extends React.Component {
+
+  constructor(props) {
+    super(props);
   }
 
   render() {
     return (
-    <ScrollView>
-      <Text style={styles.title}>Results</Text>
-      {this.state.data.length === 0?
-        <Text>Loading...</Text> :
-        this.state.data.map( place => <Place
-                                        title={place.title}
-                                        dist={place.dist}
-                                        pageid={place.pageid}
-                                        saveTo={true}>
-                                      </Place>)}
-    </ScrollView>)
+    <Subscribe to={[AContainer]}>
+      { api =>
+      <ScrollView>
+        <Loader api={api} coords={this.props.coords} />
+        <Text style={styles.title}>Results</Text>
+        {api.state.data.length === 0?
+          <Text>Loading...</Text> :
+          api.state.data.map( place => <Place
+                                          title={place.title}
+                                          dist={place.dist}
+                                          pageid={place.pageid}
+                                          onSelect={this.props.onSelect} />)}
+      </ScrollView>
+      }
+    </Subscribe>)
   }
 }
 

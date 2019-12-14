@@ -30,7 +30,7 @@ export default class Place extends React.Component {
           <Button title="Go to Wikipedia" color="#66ff66" onPress={()=>{Linking.openURL(this.state.url)}} />
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="save for later"/>
+          <Button title="save for later" onPress={() => this.props.onSelect({pageid: this.props.pageid, title: this.props.title, dist: this.props.dist, url: this.state.url})}/>
         </View>
       </View>
     </View>)

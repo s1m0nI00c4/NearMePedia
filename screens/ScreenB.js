@@ -1,4 +1,4 @@
-iimport React from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import ComponentB from './../components/ComponentB';
 import { Provider } from "unstated";

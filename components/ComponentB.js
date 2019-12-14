@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
 
   listbox: {
     paddingHorizontal: 14,
+    paddingBottom: 28,
     fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
 
   position: {
     flex: 1,
+    paddingHorizontal: 28,
     flexDirection: "row",
     marginBottom: 7,
     backgroundColor: "#EDF9FF",

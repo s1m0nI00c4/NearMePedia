@@ -12,7 +12,6 @@ export default class ScreenB extends React.Component {
     return (
     <Provider>
       <View>
-        <Button title="Go to ScreenA" onPress={() => this.props.navigation.navigate("RouteA")} />
         <ComponentB onSelect={(latlong) => {
                 this.props.navigation.navigate("RouteA", {selectedLatLong: latlong})
                 }} />

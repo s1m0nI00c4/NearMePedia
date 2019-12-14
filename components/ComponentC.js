@@ -27,8 +27,15 @@ class ItemLoader extends React.Component {
   }
 
   componentDidMount() {
+    console.log("Save for later: " + JSON.stringify(this.props.saveForLater))
     this.props.api.addItem(this.props.saveForLater)
   }
+
+  componentWillUnmount() {
+    console.log("unmounting...")
+    console.log("Now CContainer contains: " + JSON.stringify(this.props.api.state))
+  }
+
   render() {
     return null
   }
@@ -55,6 +62,7 @@ export default class ComponentC extends React.Component {
                                           pageid={place.pageid}
                                           url={place.url}
                                         />)}
+        <Button color="red" title="clear" onPress={() => api.clear()} />
       </ScrollView>
       }
     </Subscribe>)

@@ -27,13 +27,8 @@ class ItemLoader extends React.Component {
   }
 
   componentDidMount() {
-    console.log("Save for later: " + JSON.stringify(this.props.saveForLater))
-    this.props.api.addItem(this.props.saveForLater)
-  }
+    this.props.api.addItem(this.props.saveForLater);
 
-  componentWillUnmount() {
-    console.log("unmounting...")
-    console.log("Now CContainer contains: " + JSON.stringify(this.props.api.state))
   }
 
   render() {

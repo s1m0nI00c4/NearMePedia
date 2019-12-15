@@ -1,21 +1,22 @@
-import { PersistContainer } from 'unstated-persist'
-import {_getPositionAsync} from '../components/GMapsAPIHandler';
+import { AsyncStorage } from 'react-native';
+import { PersistContainer } from 'unstated-persist';
 
 let patch = {data: []}
 
 
 export default class CContainer extends PersistContainer {
 
+
   constructor(props) {
     super(props);
-    console.log("initial state of Container is: " + JSON.stringify(patch))
-    this.state = patch;
+    this.state = {
+      data: [],
+    }
    }
 
+
   deleteItem(id) {
-    console.log("before deletion")
     const newData = this.state.data.filter(item => item.pageid !== id);
-    console.log("New data is: " + JSON.stringify(newData))
     this.setState({ data: newData });
     patch = {data: newData}
   }
@@ -23,7 +24,6 @@ export default class CContainer extends PersistContainer {
   addItem(item) {
       if (item.pageid !== 0) {
       var newData = this.state.data
-      console.log("adding " + JSON.stringify(item) + " to " + JSON.stringify(newData))
       newData.push(item);
       this.setState({data: newData});
       patch = {data: newData}
@@ -34,5 +34,11 @@ export default class CContainer extends PersistContainer {
     this.setState({data: []})
     patch = {data: []}
   }
+
+  persist = {
+        key: 'data',
+        version: 1,
+        storage: AsyncStorage,
+    }
 
 }

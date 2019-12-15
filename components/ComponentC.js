@@ -43,14 +43,17 @@ export default class ComponentC extends React.Component {
    }
 
   render() {
+
+    var id = 0;
     return (
     <Subscribe to={[CContainer]}>
       { api =>
       <ScrollView>
         <ItemLoader api={api} saveForLater={this.props.saveForLater} />
         <Text style={styles.title}>Reading List</Text>
-        <Text style={styles.text}>{api.state.data.length===0? "Your reading list is empty": "Here a list of reads you saved"}</Text>
-        {api.state.data.map( place => <Item
+        <Text style={styles.text}>{api.state.readinglist.length===0? "Your reading list is empty": "Here a list of reads you saved"}</Text>
+        {api.state.readinglist.map( place => <Item
+                                          key={id++}
                                           title={place.title}
                                           onDelete={() => api.deleteItem(place.pageid)}
                                           dist={place.dist}

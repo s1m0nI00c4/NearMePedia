@@ -38,12 +38,10 @@ export default class Georesolver extends React.Component {
   };
 
   handleSubmit = async () => {
-        try {
-        const data = await this._getLocationAsync()
-        this.props.onSubmit(data)
-        this.props.onSelect(data)
-        } catch(error) {
-          console.log(error.message)
+    const data = await this._getLocationAsync()
+      if (this.state.error === null ) {
+      this.props.onSubmit(data);
+      this.props.onSelect(data);
       }
     }
 

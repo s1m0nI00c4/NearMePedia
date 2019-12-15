@@ -9,9 +9,7 @@ export default class CContainer extends PersistContainer {
 
   constructor(props) {
     super(props);
-    this.state = {
-      readinglist: [],
-    }
+    this.state = patch
    }
 
 

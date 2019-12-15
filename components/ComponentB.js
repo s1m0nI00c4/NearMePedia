@@ -13,11 +13,8 @@ class Position extends React.Component {
    }
 
   myOnPress = async () => {
-
-    console.log("something")
     this.props.onSubmit({latitude: this.props.latitude, longitude: this.props.longitude});
     this.props.onSelect({latitude: this.props.latitude, longitude: this.props.longitude});
-
   }
 
   render() {

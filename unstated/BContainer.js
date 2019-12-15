@@ -1,5 +1,6 @@
 import { PersistContainer } from 'unstated-persist';
 import {_getPositionAsync} from '../components/GMapsAPIHandler';
+import { AsyncStorage } from 'react-native';
 
 export default class BContainer extends PersistContainer {
   state = {
@@ -18,7 +19,7 @@ export default class BContainer extends PersistContainer {
       if (test.length === 0) {
       newGscoord.push(coords);
       this.setState({gscoord: newGscoord});
-      } 
+      }
     } catch(error) {
       console.log(error.message)
     }
@@ -27,5 +28,11 @@ export default class BContainer extends PersistContainer {
   deletePosition = address => {
     const newGscoord = this.state.gscoord.filter( item => item.address !== address)
     this.setState({gscoord: newGscoord})
+   }
+
+   persist = {
+     key: 'gscoord',
+     version: 1,
+     storage: AsyncStorage,
    }
 }

@@ -12,11 +12,9 @@ export default class ScreenA extends React.Component {
     return (
     <Provider>
       <View>
-        <Button title="Go to ScreenB" onPress={() => this.props.navigation.navigate("RouteB")} />
         <ComponentC
           saveForLater={this.props.navigation.getParam('saveForLater', {pageid: 0, title: 'error', dist: 0, url: 'https://www.google.com'} )}
         />
-        <Button title="back" onPress={() => this.props.navigation.goBack()} />
       </View>
     </Provider>)
   }

@@ -26,13 +26,35 @@ class ItemLoader extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
+  componentWillUnmount() {
     this.props.api.addItem(this.props.saveForLater);
-
+    console.log("Exiting: " + JSON.stringify(this.props.api.state.readinglist))
   }
 
   render() {
-    return null
+    var id = 0;
+    return (
+      <ScrollView>
+        <Text style={styles.title}>Reading List</Text>
+        <Text style={styles.text}>{this.props.api.state.readinglist.length===0? "Your reading list is empty": "Here a list of reads you saved"}</Text>
+        {this.props.saveForLater.pageid===0? null :
+                <Item   key={id++}
+                title={this.props.saveForLater.title}
+                onDelete={() => {this.props.saveForLater.pageid = 0; this.forceUpdate();}}
+                dist={this.props.saveForLater.dist}
+                pageid={this.props.saveForLater.pageid}
+                url={this.props.saveForLater.url}
+        />}
+        {this.props.api.state.readinglist.map( place => <Item
+                                          key={id++}
+                                          title={place.title}
+                                          onDelete={() => this.props.api.deleteItem(place.pageid)}
+                                          dist={place.dist}
+                                          pageid={place.pageid}
+                                          url={place.url}
+                                        />)}
+      </ScrollView>
+    )
   }
 }
 
@@ -44,24 +66,10 @@ export default class ComponentC extends React.Component {
 
   render() {
 
-    var id = 0;
     return (
     <Subscribe to={[CContainer]}>
       { api =>
-      <ScrollView>
         <ItemLoader api={api} saveForLater={this.props.saveForLater} />
-        <Text style={styles.title}>Reading List</Text>
-        <Text style={styles.text}>{api.state.readinglist.length===0? "Your reading list is empty": "Here a list of reads you saved"}</Text>
-        {api.state.readinglist.map( place => <Item
-                                          key={id++}
-                                          title={place.title}
-                                          onDelete={() => api.deleteItem(place.pageid)}
-                                          dist={place.dist}
-                                          pageid={place.pageid}
-                                          url={place.url}
-                                        />)}
-        <Button color="red" title="clear" onPress={() => api.clear()} />
-      </ScrollView>
       }
     </Subscribe>)
   }

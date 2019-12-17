@@ -1,36 +1,34 @@
 import { AsyncStorage } from 'react-native';
 import { PersistContainer } from 'unstated-persist';
 
-let patch = {readinglist: []}
+/*let patch = {readinglist: []}*/
 
 
 export default class CContainer extends PersistContainer {
 
-
-  constructor(props) {
-    super(props);
-    this.state = patch
-   }
-
+    state = {readinglist: []}
 
   deleteItem(id) {
     const newData = this.state.readinglist.filter(item => item.pageid !== id);
     this.setState({ readinglist: newData });
-    patch = {readinglist: newData}
+    /*patch = {readinglist: newData}*/
   }
 
-  addItem(item) {
+  addItem = async (item) => {
       if (item.pageid !== 0) {
-      var newData = this.state.readinglist
+      var newData = this.state.readinglist;
+      console.log(JSON.stringify(newData))
       newData.push(item);
-      this.setState({readinglist: newData});
-      patch = {readinglist: newData}
+      console.log(JSON.stringify(newData))
+      await this.setState({readinglist: newData});
+      console.log(JSON.stringify(this.state.readinglist))
+      //patch = {readinglist: newData}
       }
   }
 
   clear() {
     this.setState({readinglist: []})
-    patch = {readinglist: []}
+    //patch = {readinglist: []}
   }
 
   persist = {
